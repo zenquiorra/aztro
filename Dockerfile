@@ -15,13 +15,11 @@ COPY requirements.txt .
 # 5. Upgrade pip
 RUN pip install --upgrade pip
 
-# 6. Pin MarkupSafe & Jinja2 before installing the rest
-RUN pip install --no-cache-dir \
-      markupsafe==2.0.1 \
-      jinja2==2.11.3
+# install base deps
+RUN pip install --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt \
+ && pip install --no-cache-dir markupsafe==2.0.1 jinja2==2.11.3
 
-# 7. Install your remaining dependencies
-RUN pip install --no-cache-dir -r requirements.txt
 
 # 8. Copy application code
 COPY . .
