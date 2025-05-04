@@ -1,26 +1,27 @@
-# Use the official slim Python image (Debian-based)
+# 1. Base image
 FROM python:3.11-slim
 
-# 1. Install only runtime dependencies (no compilers/build tools)
+# 2. Install only runtime OS deps
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
       ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Set working directory
+# 3. Set working directory
 WORKDIR /app
 
-# 3. Copy and install Python dependencies (prebuilt wheels)
+# 4. Copy & install Python deps:
+#    - First pin MarkupSafe to 2.0.1 (has soft_unicode)
+#    - Then install the rest (lxml, gevent via prebuilt wheels)
 COPY requirements.txt .
 RUN pip install --upgrade pip \
+ && pip install --no-cache-dir markupsafe==2.0.1 \
  && pip install --no-cache-dir -r requirements.txt
 
-# 4. Copy application source
+# 5. Copy application code
 COPY . .
 
-# 5. Expose the port that Gunicorn will bind to
+# 6. Expose and run with Gunicorn
 ENV PORT 10000
 EXPOSE 10000
-
-# 6. Start the Flask app using Gunicorn with 4 workers
 CMD ["gunicorn", "app:app", "--bind", "0.0.0.0:10000", "--workers", "4"]
