@@ -8,4 +8,4 @@ beautifulsoup4==4.6.3
 flask_restful==0.3.6
 lxml>=4.9.2
 flask_cors
-gevent>=23.9.3
+gevent>=21.12.0
