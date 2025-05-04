@@ -1,8 +1,17 @@
-Flask==2.3.3
-gunicorn==19.9.0         # or upgrade, but this works
+# ――― Core framework ―――
+Flask==2.2.5          # last release that still exports _endpoint_from_view_func and MutableMapping helpers  :contentReference[oaicite:0]{index=0}
+Werkzeug<2.3          # Flask‑2.2 was tested against the 2.2‑series  :contentReference[oaicite:1]{index=1}
+itsdangerous>=2.1.2,<2.2  # pulled automatically, version‑match with Flask‑2.2
+
+# ――― Extensions you already use ―――
+Flask‑RESTful==0.3.10   # latest; works with Flask ≤ 2.2  :contentReference[oaicite:2]{index=2}
+Flask‑Cors==5.0.1
+
+# ――― Runtime / worker ―――
+gunicorn==21.2.0        # modern wheel, safer than 19.x  :contentReference[oaicite:3]{index=3}
+gevent>=21.12.0         # ships Py 3.11 wheels  :contentReference[oaicite:4]{index=4}
+
+# ――― Your helper libs ―――
 requests==2.20.0
 beautifulsoup4==4.6.3
-flask_restful==0.3.6
-flask_cors==5.0.1
 lxml>=4.9.2
-gevent>=21.12.0
